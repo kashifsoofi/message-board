@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using MessageBoard.Api.Models.Requests;
 using MessageBoard.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -31,9 +31,10 @@ namespace MessageBoard.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string userId)
         {
-            return Ok(new List<string> { "value1", "value2" });
+            var userMessages = _messagesService.GetUserMessages(userId);
+            return Ok(userMessages.ToList());
         }
     }
 }

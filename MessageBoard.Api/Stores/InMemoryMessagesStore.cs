@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MessageBoard.Api.Models;
 
 namespace MessageBoard.Api.Stores
@@ -19,6 +20,11 @@ namespace MessageBoard.Api.Stores
         public void Store(MessageModel messageModel)
         {
             _repository.Add(messageModel);
+        }
+
+        public IEnumerable<MessageModel> GetAll(string userId)
+        {
+            return _repository.Where(x => x.UserId == userId);
         }
     }
 }
