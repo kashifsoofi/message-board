@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBoard.Api", "MessageBoard.Api\MessageBoard.Api.csproj", "{348DEAE5-A709-41FF-9013-48A0BF6A1769}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBoard.Api.UnitTests", "MessageBoard.Api.UnitTests\MessageBoard.Api.UnitTests.csproj", "{57980D7C-E073-4558-9A65-83D718865731}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBoard.Api.AcceptanceTests", "MessageBoard.Api.AcceptanceTests\MessageBoard.Api.AcceptanceTests.csproj", "{8B8964F0-BD03-4EEC-A644-5AFD488BC449}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{348DEAE5-A709-41FF-9013-48A0BF6A1769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{348DEAE5-A709-41FF-9013-48A0BF6A1769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{348DEAE5-A709-41FF-9013-48A0BF6A1769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{348DEAE5-A709-41FF-9013-48A0BF6A1769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57980D7C-E073-4558-9A65-83D718865731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57980D7C-E073-4558-9A65-83D718865731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57980D7C-E073-4558-9A65-83D718865731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57980D7C-E073-4558-9A65-83D718865731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B8964F0-BD03-4EEC-A644-5AFD488BC449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B8964F0-BD03-4EEC-A644-5AFD488BC449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B8964F0-BD03-4EEC-A644-5AFD488BC449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B8964F0-BD03-4EEC-A644-5AFD488BC449}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
