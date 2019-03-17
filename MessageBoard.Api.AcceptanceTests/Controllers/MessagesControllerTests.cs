@@ -31,7 +31,7 @@ namespace MessageBoard.Api.AcceptanceTests
             var request = _fixture.Build<CreateMessageRequest>().Create();
 
             var requestContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var response = await _testFixture.Client.PostAsync("api/messages", requestContent);
+            var response = await _testFixture.Client.PostAsync("messages", requestContent);
 
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -46,7 +46,7 @@ namespace MessageBoard.Api.AcceptanceTests
         {
             var userId = _testFixture.Messages.First().UserId;
 
-            var response = await _testFixture.Client.GetAsync($"api/messages?userid={userId}");
+            var response = await _testFixture.Client.GetAsync($"messages?userid={userId}");
 
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -63,7 +63,7 @@ namespace MessageBoard.Api.AcceptanceTests
         {
             var userId = _testFixture.Messages.First().UserId;
 
-            var response = await _testFixture.Client.GetAsync($"api/messages?USERID={userId}");
+            var response = await _testFixture.Client.GetAsync($"messages?USERID={userId}");
 
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -80,7 +80,7 @@ namespace MessageBoard.Api.AcceptanceTests
         {
             var userId = Guid.NewGuid().ToString();
 
-            var response = await _testFixture.Client.GetAsync($"api/messages?userid={userId}");
+            var response = await _testFixture.Client.GetAsync($"messages?userid={userId}");
 
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
             var responseContent = await response.Content.ReadAsStringAsync();
