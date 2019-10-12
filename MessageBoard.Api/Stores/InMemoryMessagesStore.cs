@@ -26,5 +26,10 @@ namespace MessageBoard.Api.Stores
         {
             return _repository.Where(x => x.UserId == userId);
         }
+
+        public void Store(FriendsModel friendsModel)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

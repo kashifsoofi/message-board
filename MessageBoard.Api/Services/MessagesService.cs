@@ -10,6 +10,8 @@ namespace MessageBoard.Api.Services
     {
         MessageModel Create(CreateMessageRequest request);
         IEnumerable<MessageModel> GetUserMessages(string userId);
+
+        FriendsModel Follow(FollowFriendRequest request);
     }
 
     public class MessagesService : IMessagesService
@@ -34,6 +36,15 @@ namespace MessageBoard.Api.Services
         public IEnumerable<MessageModel> GetUserMessages(string userId)
         {
             return _messagesStore.GetAll(userId);
+        }
+
+        public FriendsModel Follow(FollowFriendRequest request)
+        {
+            var createdDate = DateTime.UtcNow;
+
+            var friendsModel = new FriendsModel(request.UserId, request.FriendId, createdDate);
+            _messagesStore.Store(friendsModel);
+            return friendsModel;
         }
     }
 }

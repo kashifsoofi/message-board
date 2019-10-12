@@ -7,5 +7,7 @@ namespace MessageBoard.Api.Stores
     {
         void Store(MessageModel messageModel);
         IEnumerable<MessageModel> GetAll(string userId);
+
+        void Store(FriendsModel friendsModel);
     }
 }

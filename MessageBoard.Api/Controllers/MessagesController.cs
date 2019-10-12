@@ -31,6 +31,7 @@ namespace MessageBoard.Api.Controllers
         }
 
         [HttpGet]
+        [Route("users/{userId}/messages")]
         public IActionResult Get(string userId)
         {
             var userMessages = _messagesService.GetUserMessages(userId);
