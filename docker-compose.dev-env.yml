@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  authservice-db:
+    image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-20.04
+    restart: unless-stopped
+    ports:
+      - "1433:1433"
+    volumes:
+      - authservicedbdata:/var/opt/mssql
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: P@ssw0rd123
+      NAME: authservice-db
+
+volumes:
+  authservicedbdata:

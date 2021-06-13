@@ -1,25 +1,8 @@
 version: '3.7'
 
 services:
-  authservice-db:
-    image: mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-20.04
-    restart: unless-stopped
-    ports:
-      - "1433:1433"
-    volumes:
-      - authservicedbdata:/var/opt/mssql
-    environment:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: My!P@ssw0rd1
-      NAME: authservice-db
-
   authservice:
-    depends_on:
-      - authservice-db
     image: authservice
     build:
       context: .
       dockerfile: src/AuthService/Dockerfile
-
-volumes:
-  authservicedbdata:
