@@ -2,6 +2,7 @@ namespace AuthService
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -19,14 +20,25 @@ namespace AuthService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var migrationAssembly = typeof(Startup).GetType().Assembly.GetName().Name;
+            const string connectionString = "Data Source=AuthService.db;Mode=ReadOnly";
+
             // Add IdentityServer
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiResources(Config.ApiResources)
-                .AddTestUsers(Config.TestUsers);
+                .AddTestUsers(Config.TestUsers)
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlite(
+                        connectionString,
+                        opt => opt.MigrationsAssembly(migrationAssembly));
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlite(
+                        connectionString,
+                        opt => opt.MigrationsAssembly(migrationAssembly));
+                });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
