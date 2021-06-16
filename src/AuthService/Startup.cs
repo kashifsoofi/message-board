@@ -25,21 +25,20 @@ namespace AuthService
         public void ConfigureServices(IServiceCollection services)
         {
             var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            const string connectionString = "Data Source=AuthService.db;Mode=ReadOnly";
 
             // Add IdentityServer
             services.AddIdentityServer()
                 .AddTestUsers(Config.TestUsers)
                 .AddConfigurationStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlite(
-                        connectionString,
+                    options.ConfigureDbContext = b => b.UseSqlServer(
+                        Configuration.GetConnectionString("ConfigurationConnection"),
                         sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly));
                 })
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlite(
-                        connectionString,
+                    options.ConfigureDbContext = b => b.UseSqlServer(
+                        Configuration.GetConnectionString("PersistedGrantConnection"),
                         sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly));
                 });
 
@@ -78,16 +77,11 @@ namespace AuthService
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var persistedGrantContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
-                //Ensure database is created
-                persistedGrantContext.Database.EnsureCreated();
-
                 persistedGrantContext.Database.Migrate();
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                //Ensure database is created
-                context.Database.EnsureCreated();
-
                 context.Database.Migrate();
+
                 if (!context.Clients.Any())
                 {
                     foreach (var client in Config.Clients)
