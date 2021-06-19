@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AuthService.Data.Migrations.IdentityServer.ConfigurationDb
+namespace AuthService.Migrations.SqlServer.IdentityServer.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
     [Migration("20210616094114_InitialIdentityServerConfigurationDbMigration")]

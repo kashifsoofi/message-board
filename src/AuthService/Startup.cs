@@ -1,7 +1,7 @@
 namespace AuthService
 {
+    using System;
     using System.Linq;
-    using System.Reflection;
     using IdentityServer4.EntityFramework.DbContexts;
     using IdentityServer4.EntityFramework.Mappers;
     using Microsoft.AspNetCore.Builder;
@@ -24,22 +24,46 @@ namespace AuthService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            var provider = Configuration.GetValue<string>("Database:Provider");
 
             // Add IdentityServer
             services.AddIdentityServer()
                 .AddTestUsers(Config.TestUsers)
                 .AddConfigurationStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlServer(
-                        Configuration.GetConnectionString("ConfigurationConnection"),
-                        sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly));
+                    switch (provider)
+                    {
+                        case "Sqlite":
+                            options.ConfigureDbContext = b => b.UseSqlite(
+                                Configuration.GetConnectionString("SqliteConfigurationConnection"),
+                                sqlOptions => sqlOptions.MigrationsAssembly("AuthService.Migrations.Sqlite"));
+                            break;
+                        case "SqlServer":
+                            options.ConfigureDbContext = b => b.UseSqlServer(
+                                Configuration.GetConnectionString("SqlServerConfigurationConnection"),
+                                sqlOptions => sqlOptions.MigrationsAssembly("AuthService.Migrations.SqlServer"));
+                            break;
+                        default:
+                            throw new Exception($"Unsupported provider: [{provider}]");
+                    }
                 })
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlServer(
-                        Configuration.GetConnectionString("PersistedGrantConnection"),
-                        sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly));
+                    switch (provider)
+                    {
+                        case "Sqlite":
+                            options.ConfigureDbContext = b => b.UseSqlite(
+                                Configuration.GetConnectionString("SqlitePersistedGrantConnection"),
+                                sqlOptions => sqlOptions.MigrationsAssembly("AuthService.Migrations.Sqlite"));
+                            break;
+                        case "SqlServer":
+                            options.ConfigureDbContext = b => b.UseSqlServer(
+                                Configuration.GetConnectionString("SqlServerPersistedGrantConnection"),
+                                sqlOptions => sqlOptions.MigrationsAssembly("AuthService.Migrations.SqlServer"));
+                            break;
+                        default:
+                            throw new Exception($"Unsupported provider: [{provider}]");
+                    }
                 });
 
             services.AddControllers();
